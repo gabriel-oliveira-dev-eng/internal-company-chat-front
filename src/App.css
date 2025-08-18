@@ -1,0 +1,63 @@
+body, html, #root {
+  height: 100%;
+}
+
+.app-shell {
+  height: calc(100% - 70px); /* Ajuste a altura do header se necessário */
+}
+
+.sidebar {
+  background-color: #f8f9fa; /* Cor de fundo da sidebar */
+  border-right: 1px solid #dee2e6;
+  overflow-y: auto;
+}
+
+.section-title {
+  font-weight: bold;
+  color: #6c757d;
+  padding: 8px 0;
+}
+
+.hover-bg:hover {
+  background-color: #e9ecef;
+  cursor: pointer;
+}
+
+.chat-area {
+  position: relative;
+}
+
+.chat-scroll {
+  overflow-y: auto;
+}
+
+.msg {
+  padding: 8px 12px;
+  border-radius: 18px;
+  max-width: 70%;
+}
+
+.msg-in {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+}
+
+.msg-out {
+  background-color: #dcf8c6; /* Cor de exemplo para mensagens enviadas */
+}
+
+.composer {
+  background-color: #f0f0f0;
+  border-top: 1px solid #dee2e6;
+}
+
+.status-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #28a745; /* Cor para status online */
+  border-radius: 50%;
+  border: 2px solid white;
+}
