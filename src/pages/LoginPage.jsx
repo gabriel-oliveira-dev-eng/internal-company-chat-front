@@ -1,13 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useApi } from "../hooks/useApi";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", pass: "" });
+  const { request, loading, error } = useApi();
+  const [form, setForm] = useState({ email: "", password: "" });
 
-  const handleSubmit = (e) => {
+  const fetchLogin = async (data) => {
+  try {
+    const login = await request("post", "/auth/login", data);
+    return login; // 💡 Retorne o objeto login
+  } catch(err){
+    console.error("Erro ao buscar usuarios: ", err);
+    return null; // Retorne null em caso de erro para evitar problemas
+  }
+};
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/home");
+    
+    const login = await fetchLogin(form);
+
+    if(login && login.access_token){
+      navigate("/home");
+    } else{
+      console.log("Resposta da API:", login); 
+      console.log("Form:", form); 
+    }
   };
 
   return (
@@ -26,9 +46,9 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label className="form-label">E-mail ou Username</label>
+                <label className="form-label">E-mail</label>
                 <input
-                  type="text"
+                  type="email"
                   className="form-control"
                   value={form.email}
                   onChange={(e) =>
@@ -41,9 +61,9 @@ export default function LoginPage() {
                 <input
                   type="password"
                   className="form-control"
-                  value={form.pass}
+                  value={form.password}
                   onChange={(e) =>
-                    setForm({ ...form, pass: e.target.value })
+                    setForm({ ...form, password: e.target.value })
                   }
                 />
               </div>
