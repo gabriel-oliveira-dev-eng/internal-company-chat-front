@@ -23,6 +23,7 @@ export default function LoginPage() {
     const login = await fetchLogin(form);
 
     if(login && login.access_token){
+      localStorage.setItem("access_token",login.access_token);
       navigate("/home");
     } else{
       console.log("Resposta da API:", login); 

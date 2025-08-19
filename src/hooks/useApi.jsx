@@ -8,6 +8,13 @@ export function useApi() {
   const request = useCallback(async (method, url, data = null, config = {}) => {
     setLoading(true);
     setError(null);
+    const token = localStorage.getItem("access_token");
+
+    const headers = config.headers || {};
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
 
     try {
       const response = await apiClient({
@@ -15,6 +22,7 @@ export function useApi() {
         url,
         data,
         ...config,
+        headers,
       });
       return response.data;
     } catch (err) {
