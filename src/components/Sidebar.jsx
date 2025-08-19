@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useApi } from "../hooks/useApi";
 
 // Dados de exemplo para usuários e grupos
-const users = [
+const usersDefault = [
   { name: 'Ana Souza', avatar: 'https://avatar.iran.liara.run/public/girl' },
   { name: 'Carlos Lima', avatar: 'https://avatar.iran.liara.run/public/29' },
   { name: 'Marina Dias', avatar: 'https://avatar.iran.liara.run/public/girl' },
@@ -9,13 +10,40 @@ const users = [
   { name: 'Juliana Prado', avatar: 'https://avatar.iran.liara.run/public/girl' },
 ];
 
-const groups = [
+const groupsDefault = [
   { name: 'Equipe Produto' },
   { name: 'Suporte' },
   { name: 'Família' },
 ];
 
 function Sidebar() {
+  const { request, loading, error } = useApi();
+  const [users, setUsers] = useState([]);
+  const [groups, setGroups] = useState([]);
+
+  const fetchUsers = async () => {
+    try {
+      const userData = await request("get", "/user");
+      const groupData = await request("get", "/groups");
+      setUsers(userData);
+      setGroups(groupData);
+    } catch(err){
+      console.error("Erro ao buscar usuarios: ", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  if(loading){
+    return (<p>Carregando...</p>);
+  }
+
+  if(error){
+    return (<p>Erro: {error}</p>);
+  }
+
   return (
     <aside className="col-12 col-md-4 col-lg-3 sidebar d-flex flex-column p-3">
       <div className="section-title">Usuários</div>
@@ -23,8 +51,8 @@ function Sidebar() {
         <ul className="list-unstyled m-0">
           {users.map((user, index) => (
             <li key={index} className="d-flex align-items-center gap-2 p-2 rounded hover-bg">
-              <img src={user.avatar} className="rounded-circle" alt="" width="36" height="36" />
-              <span className="text-truncate">{user.name}</span>
+              <img src={`https://avatar.iran.liara.run/username?username=${encodeURIComponent(user.username.replace('.', ','))}`} className="rounded-circle" alt="" width="36" height="36" />
+              <span className="text-truncate">{user.username}</span>
             </li>
           ))}
         </ul>
