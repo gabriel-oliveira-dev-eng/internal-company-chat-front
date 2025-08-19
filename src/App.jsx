@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from './components/Header';
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
-import PrivateRoutes from './components/PrivateRoutes'; // Importe o componente
+import ProfilePage from "./pages/ProfilePage";
+import PrivateRoutes from './components/PrivateRoutes';
 import './App.css';
 
 export default function App() {
@@ -10,11 +11,10 @@ export default function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        {/* Rota pública que não exige autenticação */}
         <Route path="/login" element={<LoginPage />} />
-
         <Route element={<PrivateRoutes />}>
           <Route path="/home" element={<HomePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
