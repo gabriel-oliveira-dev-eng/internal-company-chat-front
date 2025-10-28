@@ -65,7 +65,7 @@ function Sidebar({onSelectUser}) {
         <div className="sidebar-data">
           <div className="d-flex align-items-center gap-3">
             <div className="position-relative">
-              <img src="https://avatar.iran.liara.run/public/27" alt="Avatar" className="rounded-circle" width="40" height="40" />
+              <img src="https://avatar.iran.liara.run/username?username=Gabriel+Oliveira" alt="Avatar" className="rounded-circle" width="40" height="40" />
               <span className="status-dot"></span>
             </div>
             <div className="fw-semibold" style={{ marginRight: '60px' }}>Gabriel Oliveira</div>

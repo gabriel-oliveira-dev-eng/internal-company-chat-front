@@ -4,6 +4,7 @@ import ChatBox from "../components/ChatBox";
 import React, { useState, useEffect, useRef } from 'react';
 
 export default function HomePage() {
+  const user = "Gabriel Oliveira";
   const [targetUser, setTargetUser] = useState("Hellen Modesto");
   return (
     <div className="app-shell container-fluid">
@@ -14,7 +15,7 @@ export default function HomePage() {
           <div className="chat-header d-flex align-items-center justify-content-between px-3 py-2 border-bottom sticky-top bg-white">
             <div className="d-flex align-items-center gap-2">
               <img
-                src="https://avatar.iran.liara.run/public/girl"
+                src={`https://avatar.iran.liara.run/username?username=${encodeURIComponent(targetUser.replace('.', ','))}`}
                 className="rounded-circle"
                 width="40"
                 height="40"
@@ -22,7 +23,7 @@ export default function HomePage() {
               <span className="fw-semibold">{targetUser}</span>
             </div>
           </div>
-          <ChatBox targetUser={targetUser}/>
+          <ChatBox user={user} targetUser={targetUser}/>
         </main>
       </div>
     </div>

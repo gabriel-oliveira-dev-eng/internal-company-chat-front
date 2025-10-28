@@ -7,7 +7,7 @@ const socket = io("http://localhost:3000", {
   query: {user: user }
 });
 
-export default function ChatBox({targetUser}) {
+export default function ChatBox({user, targetUser}) {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
 
