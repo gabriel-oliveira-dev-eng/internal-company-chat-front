@@ -1,22 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useApi } from "../hooks/useApi";
-import { useNavigate } from "react-router-dom";
-// Dados de exemplo para usuários e grupos
-const usersDefault = [
-  { name: 'Ana Souza', avatar: 'https://avatar.iran.liara.run/public/girl' },
-  { name: 'Carlos Lima', avatar: 'https://avatar.iran.liara.run/public/29' },
-  { name: 'Marina Dias', avatar: 'https://avatar.iran.liara.run/public/girl' },
-  { name: 'Rafael Alves', avatar: 'https://avatar.iran.liara.run/public/29' },
-  { name: 'Juliana Prado', avatar: 'https://avatar.iran.liara.run/public/girl' },
-];
 
-const groupsDefault = [
-  { name: 'Equipe Produto' },
-  { name: 'Suporte' },
-  { name: 'Família' },
-];
 
-function Sidebar() {
+function Sidebar({onSelectUser}) {
   const { request, loading, error } = useApi();
   const [users, setUsers] = useState([]);
   const [groups, setGroups] = useState([]);
@@ -52,7 +38,7 @@ function Sidebar() {
       <div className="sidebar-list mb-3">
         <ul className="list-unstyled m-0">
           {users.map((user, index) => (
-            <li key={index} className="d-flex align-items-center gap-2 p-2 rounded hover-bg">
+            <li key={index} className="d-flex align-items-center gap-2 p-2 rounded hover-bg" style={{cursor: "pointer"}} onClick={() => onSelectUser(user.username)}>
               <img src={`https://avatar.iran.liara.run/username?username=${encodeURIComponent(user.username.replace('.', ','))}`} className="rounded-circle" alt="" width="36" height="36" />
               <span className="text-truncate">{user.username}</span>
             </li>

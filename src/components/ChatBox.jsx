@@ -1,34 +1,54 @@
 // src/components/ChatBox.jsx
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
+const user = "Gabriel Oliveira";
 
-const socket = io("http://localhost:3000");
+const socket = io("http://localhost:3000", {
+  query: {user: user }
+});
 
-export default function ChatBox() {
+export default function ChatBox({targetUser}) {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
-  const [user, setUser] = useState("Gabriel");
 
-  useEffect(() => {
-    socket.on("message", (msg) => {
+useEffect(() => {
+  if (!targetUser) return;
+
+  // Limpa mensagens antigas imediatamente
+  setMessages([]);
+
+  const handleMessagesHistory = (msgs) => {
+    setMessages(msgs);
+  };
+
+  const handleNewMessage = (msg) => {
+    if (msg.from === targetUser || msg.to === targetUser) {
       setMessages((prev) => [...prev, msg]);
-    });
+    }
+  };
 
-    socket.emit("getMessages");
-    socket.on("messagesHistory", (msgs) => {
-      setMessages(msgs);
-    });
+  // Configura os listeners
+  socket.on("messagesHistory", handleMessagesHistory);
+  socket.on("message", handleNewMessage);
 
-    return () => {
-      socket.off("message");
-      socket.off("messagesHistory");
-    };
-  }, []); // ← dependências vazias (executa apenas 1x)
+  // Solicita o histórico
+  socket.emit("getMessages", { user, targetUser });
+
+  // Limpeza para evitar duplicação de listeners
+  return () => {
+    socket.off("messagesHistory", handleMessagesHistory);
+    socket.off("message", handleNewMessage);
+  };
+}, [targetUser]);
 
   const sendMessage = (e) => {
     e.preventDefault();
     if (text.trim() === "") return;
-    socket.emit("message", { user, text });
+    socket.emit("message", {
+      from: user,
+      to: targetUser,
+      text
+    });
     setText("");
   };
 
@@ -47,10 +67,10 @@ export default function ChatBox() {
           <div
             key={i}
             className={`msg shadow-sm ${
-              msg.user === user ? "msg-out ms-auto" : "msg-in"
+              msg.from === user ? "msg-out ms-auto" : "msg-in"
             }`}
           >
-            <strong>{msg.user}:</strong> {msg.text}
+            <strong>{msg.from}:</strong> {msg.text}
           </div>
         ))}
       </div>
