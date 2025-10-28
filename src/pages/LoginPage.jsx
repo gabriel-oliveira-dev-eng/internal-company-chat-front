@@ -10,10 +10,10 @@ export default function LoginPage() {
   const fetchLogin = async (data) => {
   try {
     const login = await request("post", "/auth/login", data);
-    return login; // 💡 Retorne o objeto login
+    return login;
   } catch(err){
     console.error("Erro ao buscar usuarios: ", err);
-    return null; // Retorne null em caso de erro para evitar problemas
+    return null;
   }
 };
 

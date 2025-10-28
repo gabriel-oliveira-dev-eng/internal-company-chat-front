@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApi } from "../hooks/useApi";
-
+import { useNavigate } from "react-router-dom";
 // Dados de exemplo para usuários e grupos
 const usersDefault = [
   { name: 'Ana Souza', avatar: 'https://avatar.iran.liara.run/public/girl' },
@@ -20,6 +20,7 @@ function Sidebar() {
   const { request, loading, error } = useApi();
   const [users, setUsers] = useState([]);
   const [groups, setGroups] = useState([]);
+  
 
   const fetchUsers = async () => {
     try {
@@ -43,6 +44,7 @@ function Sidebar() {
   if(error){
     return (<p>Erro: {error}</p>);
   }
+
 
   return (
     <aside className="col-12 col-md-4 col-lg-3 sidebar d-flex flex-column p-3">
@@ -81,7 +83,7 @@ function Sidebar() {
               <span className="status-dot"></span>
             </div>
             <div className="fw-semibold" style={{ marginRight: '60px' }}>Gabriel Oliveira</div>
-            <button className="btn btn-outline-secondary d-flex align-items-center" aria-label="Configurações">
+            <button className="btn btn-outline-secondary d-flex align-items-center" aria-label="Configurações" onClick={() => navigate("/profile")}>
               <i className="bi bi-gear"></i>
             </button>
           </div>

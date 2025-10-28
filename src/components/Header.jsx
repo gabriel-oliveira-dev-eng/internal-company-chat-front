@@ -1,6 +1,12 @@
 import React from 'react';
-
+import { useNavigate } from "react-router-dom";
 function Header() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/home");
+  };
+
   return (
     <header className="app-header d-flex align-items-center px-3" style={{ background: 'linear-gradient(to right, #1E1C31, #322F4C)' }}>
       <div className="container-fluid">
@@ -9,7 +15,7 @@ function Header() {
             <div className="position-relative">
               <div className="col-md-3"></div>
             </div>
-            <div className="row">
+            <div className="row" onClick={handleClick} style={{ cursor: "pointer" }}>
               <div className="col-md-3">
                 <img src="/img/logo_com4.png.jpeg" className="rounded-circle" style={{ width: '53px', height: 'auto' }} alt="Logo" />
               </div>
@@ -21,7 +27,7 @@ function Header() {
               <input type="text" className="form-control" placeholder="Buscar..." />
             </div>
           </div>
-          <button className="btn btn-outline-secondary d-flex align-items-center" aria-label="Configurações">
+          <button className="btn btn-outline-secondary d-flex align-items-center" aria-label="Configurações" onClick={() => navigate("/profile")}>
             <i className="bi bi-gear"></i>
           </button>
         </div>

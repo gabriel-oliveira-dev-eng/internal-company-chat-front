@@ -6,7 +6,8 @@ const FormularioUsuario = () => {
     id: '',
     email: '',
     username: '',
-    senha: '',
+    password: '',
+    confirmPassword: '',
   });
   
   const { request, loading, error } = useApi();
@@ -15,14 +16,11 @@ const FormularioUsuario = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Obtenha o token do localStorage
         const token = localStorage.getItem('access_token');
         if (!token) {
           throw new Error('Token de acesso não encontrado.');
         }
 
-        // Faça a requisição para a sua rota de dados do usuário
-        // Assumindo que você tem uma rota como GET /users/me
         await request
         const response = await request("GET","/user/me");
 
@@ -31,9 +29,9 @@ const FormularioUsuario = () => {
           id: response.id || '',
           email: response.email || '',
           username: response.username || '',
-          senha: '',
+          password: '',
+          confirmPassword: '',
         });
-        setLoading(false);
 
       } catch (err) {
         console.error(err);
@@ -54,7 +52,10 @@ const FormularioUsuario = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
+      if(formData.password == formData.confirmPassword){
         await request("PATCH",`/user/${response.id}`,formData);
+      }
+        setLoading(false);
     } catch(err){
         console.error(err);
     }
@@ -79,7 +80,7 @@ const FormularioUsuario = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="username" className="form-label">UserName</label>
+            <label htmlFor="username" className="form-label">Nome de Usuario</label>
             <input
               type="text"
               className="form-control"
@@ -92,13 +93,25 @@ const FormularioUsuario = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="senha" className="form-label">Nova senha</label>
+            <label htmlFor="password" className="form-label">Nova senha</label>
             <input
               type="password"
               className="form-control"
-              id="senha"
-              name="senha"
+              id="password"
+              name="password"
               value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="confirmPassword" className="form-label">Confirmar nova senha</label>
+            <input
+              type="password"
+              className="form-control"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
               onChange={handleChange}
             />
           </div>
