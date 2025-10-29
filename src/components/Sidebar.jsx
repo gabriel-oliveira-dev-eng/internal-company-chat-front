@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 
 const userLogged = JSON.parse(localStorage.getItem("user"));
 const socket = io("http://localhost:3000", {
-  query: { user: userLogged?.full_name },
+  query: { user: userLogged?.username },
 });
 
 function Sidebar({ onSelectUser }) {
@@ -53,14 +53,13 @@ function Sidebar({ onSelectUser }) {
           <div className="sidebar-list mb-3">
             <ul className="list-unstyled m-0">
               {users.map((user, index) => {
-                const isOnline = onlineUsers.includes(user.full_name);
-                console.log(onlineUsers);
+                const isOnline = onlineUsers.includes(user.username);
                 return (
                   <li
                     key={index}
                     className="d-flex align-items-center gap-2 p-2 rounded hover-bg"
                     style={{ cursor: "pointer" }}
-                    onClick={() => onSelectUser(user.full_name)}
+                    onClick={() => onSelectUser(user.username)}
                   >
                     <div className="position-relative">
                       <img
