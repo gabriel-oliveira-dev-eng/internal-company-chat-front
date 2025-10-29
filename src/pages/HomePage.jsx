@@ -4,14 +4,14 @@ import ChatBox from "../components/ChatBox";
 import React, { useState, useEffect, useRef } from 'react';
 
 export default function HomePage() {
-  const user = "Gabriel Oliveira";
+  const user = JSON.parse(localStorage.getItem("user")).username;
   const [targetUser, setTargetUser] = useState("Hellen Modesto");
   return (
-    <div className="app-shell container-fluid">
-      <div className="row h-100 g-0">
+    <div className="app-shell container-fluid d-flex flex-column h-100">
+      <div className="row h-100 g-0 flex-grow-1">
         <Sidebar onSelectUser={setTargetUser} />
 
-        <main className="col chat-area d-flex flex-column bg-white">
+        <main className="col chat-area d-flex flex-column bg-white h-100">
           <div className="chat-header d-flex align-items-center justify-content-between px-3 py-2 border-bottom sticky-top bg-white">
             <div className="d-flex align-items-center gap-2">
               <img

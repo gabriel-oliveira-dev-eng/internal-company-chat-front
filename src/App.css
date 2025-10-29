@@ -1,4 +1,4 @@
-body, html, #root {
+body, html, #root, .app-shell {
   height: 100%;
 }
 

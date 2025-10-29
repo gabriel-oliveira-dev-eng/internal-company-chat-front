@@ -24,6 +24,7 @@ export default function LoginPage() {
 
     if(login && login.access_token){
       localStorage.setItem("access_token",login.access_token);
+      localStorage.setItem("user",JSON.stringify(login.payload));
       navigate("/home");
     } else{
       console.log("Resposta da API:", login); 
